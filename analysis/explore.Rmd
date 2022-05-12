@@ -1,0 +1,50 @@
+---
+title:           
+author:          Dennis Wollersheim 
+date:            11.11.2021
+linkcolor:       cyan
+citecolor:       grey
+output:
+  pdf_document:
+    highlight:   zenburn
+---
+
+\tableofcontents
+
+
+
+```{r setup, include=FALSE}
+
+knitr::opts_knit$set(root.dir = '..') 
+
+source('packages.R')
+
+```
+
+
+```{r}
+
+tar_load( target_postcode)
+
+```
+
+There are `r nrow( input_ids )` lines in the submitted xls file.
+
+There are `r input_ids %>% drop_na() %>% nrow() ` non-blank postcodes
+
+There are `r target_postcode %>% nrow()  ` non-blank unique postcodes
+
+Of the non-blank postcodes, the following are not in my 2016 postcode list
+
+```{r}
+
+target_postcode %>%
+  drop_na() %>%
+  anti_join( postcode2016, by='postcode_2016') 
+
+
+```
+
+There are `r target_postcode %>% drop_na() %>% inner_join( postcode2016, by='postcode_2016')  %>% nrow() ` matching postcodes
+
+
